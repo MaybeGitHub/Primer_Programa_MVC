@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null; <!-- No usamos ningun layout -->
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!--Importamos las librerias de bootstrap-->
+    <link href="~/Content/bootstrap.css" rel="stylesheet"/>
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <title>Index</title>
+
+    <!-- Damos color al fondo -->
+    <style>  
+        body {background-color: #f1f1f1; }
+    </style>
+</head>
+<body>
+    <div class="text-center"> 
+        @ViewBag.Greeting World  <!-- Recogemos el objeto Greeting del ViewBag que viene del controlador y lo ponemos antes de World -->
+        <p>We're going to have an exciting part.<br />
+        (To do: sell it better. Add pictures or something.)</p>         
+         
+        @using (Html.BeginForm("RsvpForm", "Home", FormMethod.Get))  // Creamos un form que apunta a la vista RsvpForm del controlador HOME usando el metodo GET, fijarse que uso // para comentar porque esto es un bloque c#      
+        {
+            <input class="btn btn-success" type="submit" value="RSVP Now" /> // Definimos el boton submit y le damos stylo usando bootstrap llamando a la clase btn ( boton ) y especificando que queremos un btn-success 
+        }
+    </div>
+</body>
+</html>

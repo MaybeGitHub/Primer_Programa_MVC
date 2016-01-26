@@ -1,0 +1,57 @@
+﻿<!-- Creamos una View fuertemente tipada o lo que es lo mismo, indicamos que esta View va a usar ESTE modelo para bindear sus datos segun se rellenen ( no se si se pueden usar varios ) -->
+@model PartyInvites.Models.GuestResponse 
+
+@{
+    Layout = null; <!-- No usamos ningun layout -->
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!--Importamos las librerias de bootstrap y el documento css en la carpeta Content -->
+    <link rel="stylesheet" type="text/css" href="~/Content/Styles.css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <title>RsvpForm</title>
+</head>
+<body>
+    <!-- Bootstrap : Usamos la clase panel con la subclase panel-success, en todos los divs hay algo asique nos podemos hacer una idea de como funciona -->
+    <div class="panel panel-success">
+        <div class="panel-heading text-center"><h4>RSVP</h4></div>
+        <div class="panel-body">
+            @using (Html.BeginForm()) // Abrimos form sin indicar nada ya que nuestro objetivo es retrollamarse pero esta vez usando el metodo POST que es el definido por defecto
+            {
+                @Html.ValidationSummary() // Creamos un List ( <ul><li>....</li></ul> ) donde los mensajes de error que van a aparecer van a ser AUTOMATICAMENTE generados por los requisitos [Required] que hemos puesto en los atributos del modelo que estamos bindeando ( en este caso GuestResponse )
+                <div class="form-group">
+                    <label>Your name:</label>
+
+                    <!-- A partir de aqui, los metodos tendran un delegado llamado x que sera nuestro modelo y asi poder usar los atributos para que se rellenen, la segunda parte ( new { class = "form-control"} ) es para indicar que esa caja de texto tiene un atributo class con esos datos, seria como poner    class="form-control"    dentro de la etiqueta -->
+
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" }) <!-- Creamos un elemento HTML de tipo caja de texto cuyo contenido al darle al boton Submit, se metera en el atributo Name del modelo importado ( GuestResponse.Name )--> 
+                </div>
+                <div class="form-group">
+                    <label>Your email:</label>
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control" }) <!-- Lo mismo pero en este caso ira al atributo Email del modelo -->
+                </div>
+                <div class="form-group">
+                    <label>Your phone:</label>
+                    @Html.TextBoxFor(x => x.Phone, new { @class = "form-control" }) <!-- Y otro mas pero en este caso al Phone -->
+                </div>
+                <div class="form-group">
+                    <label>Will you attend?</label>
+                    @Html.DropDownListFor(x => x.WillAttend, new[]   // Este sin embargo es especial ya que nos introducira en el atributo WillAttend del modelo un True si ponemos Yes, un False si ponemos No o un NULL si lo dejamos por defecto
+                     {
+                        new SelectListItem { Text = "Yes, I'll be there", Value = bool.TrueString }, // Crea un elemento SelectListItem con el texto seleccionado y el valor True en String
+                        new SelectListItem { Text = "No, I can't come", Value = bool.FalseString } // Crea un elemento SelectListItem con el texto seleccionado y el valor False en String
+                    }, "Choose an option", new { @class = "form-control" }) <!-- Terminamos definiendo el valor por defecto ( Choose an option ) -->
+                </div>
+                <div class="text-center">
+                    <input class="btn btn-success" type="submit" value="Submit RSVP" />
+                </div>
+            }
+        </div>  
+    </div>
+</body>
+</html>
