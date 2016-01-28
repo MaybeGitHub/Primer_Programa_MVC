@@ -13,22 +13,7 @@
     <title>Thanks</title>
 </head>
 <body>
-    @{ // Mediante esta estructura anonima, mandariamos un email, esto no se deberia de hacer aqui, lo deberia hacer el controlador, pero el tio del libro no queria complicar mas la existencia y lo metio aqui
-        try
-        {
-            WebMail.SmtpServer = "smtp.example.com";
-            WebMail.SmtpPort = 587;
-            WebMail.EnableSsl = true;
-            WebMail.UserName = "MySmtpUserName";
-            WebMail.Password = "MySmtpPassword";
-            WebMail.From = "rsvps@example.com";
-            WebMail.Send("party-host@example.com", "RSVP Notification", Model.Name + " is " + ((Model.WillAttend ?? false) ? "" : "not") + " attending");
-        }
-        catch (Exception)
-        {
-            @:<b>Sorry - we couldn't send the email to confirm your RSVP</b>
-        }
-    }
+    @ViewBag.Email   
     <div> 
         <h1>Thank you, @Model.Name !</h1> <!-- Recogemos el atributo Name del modelo usando la clase Model que hace referencia al modelo bindeado ( la exclamacion es parte del texto quedando   Thank Your Jesus ! ) -->
         @if (Model.WillAttend == true)  // Comprobamos si el tio vendra o no para que la salida sea diferente en cada caso
