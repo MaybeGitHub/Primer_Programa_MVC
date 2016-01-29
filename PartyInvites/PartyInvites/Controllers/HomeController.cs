@@ -47,14 +47,19 @@ namespace PartyInvites.Controllers
 
         private void registrarDatos(GuestResponse guest)
         {
-            String conectionString = ConfigurationManager.ConnectionStrings["miConexion"].ConnectionString;
-            SqlConnection con = new SqlConnection(conectionString);
-            con.Open();
-            string sql = "insert into dbo.Guest (Phone, Name, Email, Attend) values ('" + guest.Phone + "','" + guest.Name + "','" + guest.Email + "','" + guest.WillAttend + "');";
+            MiDBContextDataContext db = new MiDBContextDataContext(); 
+            db.Guests.InsertOnSubmit(new Guest { Name = guest.Name, Phone = guest.Phone, Attend = guest.WillAttend, Email = guest.Email }); // Insert
+            db.SubmitChanges();
 
-            SqlCommand query = new SqlCommand(sql, con);
-            query.ExecuteNonQuery();
-            con.Close();
+            Guest g = db.Guests.Where(x => x.Email == guest.Email).Single();  // Update
+            g.Name = "Jesus";
+            db.SubmitChanges();
+
+            foreach(Guest gu in db.Guests)
+            {
+                db.Guests.DeleteOnSubmit(gu); // Delete Todo, Truncate Table
+            }           
+            db.SubmitChanges();
         }
 
         private void enviarEmail(GuestResponse guest)

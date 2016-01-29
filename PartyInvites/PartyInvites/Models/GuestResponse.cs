@@ -21,7 +21,7 @@ namespace PartyInvites.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage ="Please enter your phone number")]
-        public string Phone { get; set; }
+        public int Phone { get; set; }
 
         [Required(ErrorMessage ="Please specify whether you'll attend")]
         public bool? WillAttend { get; set; } // Aqui si nos fijamos vemos que el bool tiene una ? al final, esto se usa para indicar que ademas de True o False, tambien puede ser Null ( en caso de no seleccionar nada en el dropDown )
